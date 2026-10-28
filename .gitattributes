@@ -1,0 +1,9 @@
+# 仓库内统一 LF：
+# Dockerfile / shell / Python 在 Linux 容器与 CI 上必须是 LF，
+# 否则会出现经典的 "/bin/sh^M: bad interpreter"（Dockerfile 带 CRLF 时 build 直接失败）。
+#
+# 例外：Windows 的 PowerShell 脚本保持 CRLF，避免某些编辑器/终端下的显示问题。
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf

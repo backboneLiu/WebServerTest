@@ -1,0 +1,30 @@
+# 构建上下文瘦身：这些东西进不了镜像，但会被 docker CLI 打包上传，
+# 不排除的话 .venv（几十 MB）每次都陪着上传，构建又慢又浪费。
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.git/
+.github/
+.idea/
+.vscode/
+tests/
+legacy/
+docs/
+scripts/
+*.db
+*.db-wal
+*.db-shm
+data/
+# TEMP 被重定向到工作目录的环境下，pytest/tempfile 的临时目录会落到仓库根
+pytest-of-*/
+tmp*/
+notes.md
+TASK-*.md
+RUNBOOK.md
+uv.lock
+.python-version
+.pre-commit-config.yaml

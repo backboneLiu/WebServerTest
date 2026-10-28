@@ -1,0 +1,75 @@
+[project]
+name = "pricing"
+version = "0.2.0"
+description = "客户订单计价逻辑的 Python 等价实现，以及对外报价 HTTP 服务"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115",
+    "pyjwt>=2.9",
+    "uvicorn>=0.30",
+]
+
+# 打包配置：Docker 的 builder 阶段靠它把 src/ 打成 wheel，runtime 阶段只拷 wheel。
+# 不写这段，`pip install .` 会失败（hatchling 不知道 src/ 下有两个包）。
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pricing", "src/pricing_api"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "mypy>=1.11",
+    "ruff>=0.6",
+    "pre-commit>=3.8",
+    "httpx>=0.28.1",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+# RUF001/002/003 报的是「注释里有形近字符」，目标是盯住伪造成 ASCII 的 homo-glyph。
+# 本项目注释、docstring 都是中文，全角标点必然命中；这里只放行中文标点，
+# 真正的形近字母（如 Cyrillic а 冒充 a）仍然会被报出来。
+allowed-confusables = [
+    "，",
+    "。",
+    "、",
+    "：",
+    "；",
+    "？",
+    "！",
+    "（",
+    "）",
+    "「",
+    "」",
+    "『",
+    "』",
+    "《",
+    "》",
+    "—",
+    "…",
+    "·",
+    "×",
+    "→",
+    "≥",
+    "≤",
+    "≠",
+]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+mypy_path = "src"
+explicit_package_bases = true
+warn_unreachable = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"

@@ -1,0 +1,27 @@
+# Render Blueprint：仓库里有 Dockerfile 就能一键部署。
+#
+# ⚠️ 两个必须知道的取舍：
+# 1. `disk` 只有付费计划支持。free 实例没有持久磁盘，SQLite 会随重启/重部署清空
+#    → 审计记录丢失。演示可接受，真交付必须至少 starter + 1GB disk。
+# 2. DATABASE_URL 里的四个斜杠表示绝对路径（挂载点 /var/data）。
+services:
+  - type: web
+    name: pricing-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    plan: starter            # 想用免费额度就改成 free，但要接受审计数据不持久
+    envVars:
+      - key: JWT_SECRET
+        generateValue: true  # 由 Render 生成，不会出现在仓库里
+      - key: DATABASE_URL
+        value: sqlite:////var/data/pricing.db
+      - key: LOG_LEVEL
+        value: INFO
+      - key: APP_VERSION
+        value: "0.2.0"
+    disk:
+      name: pricing-data
+      mountPath: /var/data
+      sizeGB: 1

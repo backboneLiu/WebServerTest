@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+
+# 工具缓存
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+
+# 某些沙箱/容器环境会把 TEMP 重定向到工作目录，pytest 的 basetemp 与 tempfile
+# 的临时目录就会落到仓库根。正常终端里它们在系统临时目录。
+/pytest-of-*/
+/tmp*/
+
+# 本地运行产物：SQLite 审计库与冒烟日志，绝不入库
+data/
+*.db
+*.db-wal
+*.db-shm
+*.log
+
+# 编辑器
+.idea/
+.vscode/
