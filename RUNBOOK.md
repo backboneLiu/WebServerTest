@@ -13,9 +13,9 @@
 | ruff + mypy strict | ✅ 本地实测通过（42 测试） |
 | `docker build` 与镜像体积 | ✅ **本地实测通过**：`192MB`（183MiB，预算内） |
 | 公网部署 | ⚠️ **未执行**（需要你的云账号授权） |
-| GitHub Actions 运行 | ⚠️ **未执行**（仓库尚未 `git init` / 未推远端） |
+| GitHub Actions 运行 | ✅ **已跑绿**：[run 40646262880](https://github.com/backboneLiu/WebServerTest/actions/runs/40646262880)（lint / mypy / pytest / build / 200MB 门禁 / 容器冒烟） |
 
-**结论**：代码、测试、镜像构建与容器冒烟都是实测绿的；“公网可访问”与“CI 绿”两项需要你在目标环境跑第 5、8 节确认。
+**结论**：代码、测试、镜像构建、容器冒烟、CI 全部实测通过；只剩“公网可访问”一项，需要按第 5 节选一个平台部署。
 
 ---
 
