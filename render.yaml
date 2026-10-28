@@ -11,7 +11,7 @@ services:
     dockerfilePath: ./Dockerfile
     dockerContext: .
     healthCheckPath: /health
-    plan: starter            # 想用免费额度就改成 free，但要接受审计数据不持久
+    plan: starter            # 想用免费额度：改成 free，并把下面 disk 段整段删掉（free 不支持持久磁盘，留着会部署失败）
     envVars:
       - key: JWT_SECRET
         generateValue: true  # 由 Render 生成，不会出现在仓库里
@@ -21,6 +21,7 @@ services:
         value: INFO
       - key: APP_VERSION
         value: "0.2.0"
+    # ⚠️ 只有付费计划支持 disk。切到 free 时这四行必须一起删掉。
     disk:
       name: pricing-data
       mountPath: /var/data
